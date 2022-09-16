@@ -70,20 +70,11 @@ duom ivedimas(int &n) {
             cin >> command;
             cout << endl;
         }
-    cout << "s : " << s << endl;
-    for (int z = 0; z < (s-1); z++) {
-        cout << "iterator " << z;
-        cout << "masyvas: " <<  dinMasyvas[z];
-        sum += dinMasyvas[z];
-        cout << "paz: " << sum <<endl;
-    }
-    cout << "suma: " << sum << endl;
+    for (int z = 0; z < (s-1); z++) {sum += dinMasyvas[z];}
     sort(dinMasyvas, dinMasyvas + s);
     if ((s-1) % 2 == 0) {asmuo.med = double(dinMasyvas[(s-1)/2] + dinMasyvas[(s-1)/2+1])/2;}
     else asmuo.med = dinMasyvas[(s-1)/2];
-    cout << "med: " << asmuo.med << endl;
     asmuo.vid = (double)sum / (double)(s-1);
-    cout << "vid: " << asmuo.vid << endl;
     return asmuo;
     delete[] dinMasyvas;
 }
@@ -110,24 +101,21 @@ duom generavimas(int &n) {
         cout << endl;
     }
     for (int z = 0; z < (s-1); z++) {sum += dinMasyvas[z];}
-    cout << "suma: " << sum << endl;
     sort(dinMasyvas, dinMasyvas + s);
     if ((s-1) % 2 == 0) {asmuo.med = double(dinMasyvas[(s-1)/2] + dinMasyvas[(s-1)/2+1])/2;}
     else asmuo.med = dinMasyvas[(s-1)/2];
-    cout << "med: " << asmuo.med << endl;
     asmuo.vid = (double)sum / (double)(s-1);
-    cout << "vid: " << asmuo.vid << endl;
     return asmuo;
     delete[] dinMasyvas;
 }
 void isvedimasVid(duom temp, int n) {
     cout << left << setw(15) << temp.vardas
          << left << setw(15) << temp.pavarde
-         << left << setw(20) << (temp.vid*0.4 + temp.egz*0.6) << endl;
+         << left << setw(20) << setprecision(3) << (temp.vid*0.4 + temp.egz*0.6) << endl;
     }
 
 void isvedimasMed(duom temp, int n) {
     cout << left << setw(15) << temp.vardas
          << left << setw(15) << temp.pavarde
-         << left << setw(20) << (temp.med*0.4 + temp.egz*0.6) << endl;
+         << left << setw(20) << setprecision(3) << (temp.med*0.4 + temp.egz*0.6) << endl;
     }
