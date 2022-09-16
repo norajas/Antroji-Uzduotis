@@ -16,8 +16,8 @@ int main(){
   int n, m;
   cout<<"Iveskite studentu kieki: "; cin>>n;
   for (int i=0;i<n;i++) {masyvas[i]=ivedimas(m);}
-  cout<<std::left<<std::setw(15)<< "Vardas" <<std::left<<std::setw(15)<< "Pavarde" << std::left<<std::setw(20)<<
-  "Galutinis(vid.)" << std::left<<std::setw(20)<< "Galutinis(med.)" << endl;
+  cout<<left<<setw(15)<< "Vardas" <<left<<setw(15)<< "Pavarde" <<left<<setw(20)<<
+  "Galutinis(vid.)" <<left<<setw(20)<< "Galutinis(med.)" << endl;
   for (int i=0;i<n; i++) {
       isvedimas(masyvas[i], m);
   }
@@ -54,6 +54,6 @@ duom ivedimas(int &n) {
 }
 
 void isvedimas(duom temp, int n){
-    cout<<std::left<<std::setw(15)<< temp.vardas <<std::left<<std::setw(15)<< temp.pavarde << std::left<<std::setw(20)<<
-        (temp.vid*0.4 + temp.egz*0.6) << std::left<<std::setw(20)<< (temp.med*0.4 + temp.egz*0.6) << endl;
+    cout<<left<<setw(15)<< temp.vardas <<left<<setw(15)<< temp.pavarde <<left<<setw(20)<<
+        (temp.vid*0.4 + temp.egz*0.6) <<left<<setw(20)<< (temp.med*0.4 + temp.egz*0.6) << endl;
 }
