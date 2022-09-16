@@ -73,7 +73,6 @@ duom ivedimas(int &n) {
     sort(paz.begin(), paz.end());
     if ((paz.size()-1) % 2 == 0) {asmuo.med = double(paz[(paz.size()-1)/2] + paz[(paz.size()-1)/2+1])/2;}
     else asmuo.med = paz[(paz.size()-1)/2];
-    cout << "med: " << asmuo.med;
     asmuo.vid = (double)sum / (double)(paz.size());
     return asmuo;
     paz.clear();
