@@ -67,7 +67,7 @@ duom nuskaitymas() {
     vector<duom> stud;
     ifstream failas;
     string pav;
-    failas.open("C:\\Users\\noraj\\CLionProjects\\untitled2\\kursiokai.txt");
+    failas.open("kursiokai.txt");
     if (failas.is_open()) {
         string eil;
         vector<int> paz;
