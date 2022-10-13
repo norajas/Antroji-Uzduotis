@@ -6,6 +6,9 @@
 #include <algorithm>
 #include <cstdlib>
 #include <numeric>
+#include <fstream>
+#include <sstream>
+#include <chrono>
 
 using std::string;
 using std::cout;
@@ -16,3 +19,4 @@ using std::vector;
 using std::left;
 using std::setw;
 using std::setprecision;
+using std::ofstream;
