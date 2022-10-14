@@ -1,20 +1,4 @@
-#include "mano_lib.hpp"
-
-class Timer {
-private:
-    std::chrono::time_point<std::chrono::high_resolution_clock> start;
-public:
-    Timer() : start{std::chrono::high_resolution_clock::now()} {}
-
-    void reset() {
-        start = std::chrono::high_resolution_clock::now();
-    }
-
-    double elapsed() const {
-        return std::chrono::duration<double>
-                (std::chrono::high_resolution_clock::now() - start).count();
-    }
-};
+#include "funkcijos.hpp"
 
 string pazGeneravimas(){
     vector<string> paz;
@@ -61,8 +45,8 @@ vector<duom> nusk(int x) {
                 paz.push_back(p);
             }
             failas >> asmuo.egz;
-            asmuo.vid = double(accumulate(paz.begin(), paz.end(), 0)) / 5;
-            asmuo.gal = asmuo.vid * 0.4 + asmuo.egz * 0.6;
+            double vid = double(accumulate(paz.begin(), paz.end(), 0)) / 5;
+            asmuo.gal = vid * 0.4 + asmuo.egz * 0.6;
             stud.push_back(asmuo);
             paz.clear();
         }
@@ -74,7 +58,7 @@ vector<duom> nusk(int x) {
 
 };
 
-void isv(vector<duom> v){
+void isv(vector<duom> v, string x){
     duom asmuo;
     Timer t;
     vector<duom> m;
@@ -88,8 +72,8 @@ void isv(vector<duom> v){
     }
     cout<< "Studentu isskirstymas i 2 grupes uztruko:" << t.elapsed()<<endl;
     t.reset();
-    ofstream f1("moksliukai");
-    ofstream f2("nevykeliai");
+    ofstream f1("moksliukai" + x);
+    ofstream f2("nevykeliai" + x);
     for (int i = 0; i < m.size(); i++){
         asmuo = m[i];
         f1 << left << setw(15) << asmuo.vardas
@@ -98,7 +82,7 @@ void isv(vector<duom> v){
     for (int i = 0; i < n.size(); i++){
         asmuo = n[i];
         f2 << left << setw(15) << asmuo.vardas
-              << left << setw(15) << asmuo.pavarde << left << setw(15) << asmuo.gal << endl;
+           << left << setw(15) << asmuo.pavarde << left << setw(15) << asmuo.gal << endl;
     }
     cout<< "Studentu isskirstymas i 2 failus uztruko:" << t.elapsed()<<endl;
-}
+};
