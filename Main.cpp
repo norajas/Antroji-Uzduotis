@@ -1,24 +1,23 @@
-#include "mano_lib.hpp"
 #include "funkcijos.hpp"
 
 int main() {
-     gen(1000);
+    gen(1000);
     vector<duom> a = nusk(1000);
-    isv(a);
+    isv(a, "1");
     cout<<endl;
     gen(10000);
     vector<duom> b = nusk(10000);
-    isv(b);
+    isv(b, "2");
     cout<<endl;
     gen(100000);
     vector<duom> c = nusk(100000);
-    isv(c);
+    isv(c, "3");
     cout<<endl;
     gen(1000000);
     vector<duom> d = nusk(1000000);
-    isv(d);
+    isv(d, "4");
     cout<<endl;
     gen(10000000);
     vector<duom> e = nusk(10000000);
-    isv(e);
+    isv(e, "5");
 };
