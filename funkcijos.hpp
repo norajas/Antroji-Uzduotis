@@ -1,4 +1,5 @@
 #include "mano_lib.hpp"
+
 struct duom {
     string vardas;
     string pavarde;
@@ -36,8 +37,8 @@ void isvedimasMed(duom temp, int n);
 
 void gen(int x);
 
-vector<duom> nusk(int x);
+list<duom> nusk(int x);
 
 string pazGeneravimas();
 
-void isv(vector<duom> v, string x);
+void isv(list<duom> l, string x);
