@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <list>
 
 using std::string;
 using std::cout;
@@ -20,3 +21,4 @@ using std::left;
 using std::setw;
 using std::setprecision;
 using std::ofstream;
+using std::list;
