@@ -10,7 +10,6 @@ string pazGeneravimas() {
 };
 
 void gen(int x) {
-    Timer t;
     string name = "stud" + std::to_string(x) + ".txt";
     ofstream failas(name);
     failas << "\tVardas" << "\tPavarde" << "\t Pazymiai" << endl;
@@ -18,7 +17,6 @@ void gen(int x) {
         string info = "\tVardas" + std::to_string(i) + "\tPavarde" + std::to_string(i) + " " + pazGeneravimas() + "\n";
         failas << info;
     }
-    cout << "Failo is " << x << " irasu sukurimo laikas:" << t.elapsed() << endl;
 };
 
 list<duom> nusk(int x) {
@@ -55,6 +53,7 @@ list<duom> nusk(int x) {
 
 void isv(list<duom> l, string x) {
     duom asmuo;
+    Timer t;
     list<duom> m;
     list<duom> n;
     for (duom a : l) {
@@ -62,6 +61,7 @@ void isv(list<duom> l, string x) {
             m.push_back(a);
         } else n.push_back(a);
     }
+    cout << "Studentu isskirstymas i 2 grupes uztruko:" << t.elapsed() << endl;
     ofstream f1("moksliukai" + x);
     ofstream f2("nevykeliai" + x);
     for (duom a : l) {
