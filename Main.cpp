@@ -2,7 +2,7 @@
 
 int main() {
     duom asmuo1;
-    vector<duom> stud;
+    list<duom> stud;
     int n, m;
     string com1, com2, com3, com4;
     cout << "Generuoti failus? (T/N):";
@@ -16,7 +16,7 @@ int main() {
         cout << "Kiek studentu duomenu generuoti?";
         cin >> a;
         gen(a);
-        vector<duom> v = nusk(a);
+        list<duom> v = nusk(a);
         isv(v, "1");
         cout << endl;
         exit(0);
@@ -52,14 +52,14 @@ int main() {
     if (com2 == "V" || com2 == "v") {
         cout << left << setw(15) << "Vardas" << left << setw(15) << "Pavarde" << left << setw(20) <<
              "Galutinis(vid.)" << endl;
-        for (int i = 0; i < n; i++) {
-            isvedimasVid(stud[i], m);
+        for (duom a : stud) {
+            isvedimasVid(a, m);
         }
     } else {
         cout << left << setw(15) << "Vardas" << left << setw(15) << "Pavarde" << left << setw(20) <<
              "Galutinis(med.)" << endl;
-        for (int i = 0; i < n; i++) {
-            isvedimasMed(stud[i], m);
+        for (duom a : stud) {
+            isvedimasMed(a, m);
         }
     }
 }
