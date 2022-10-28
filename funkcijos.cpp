@@ -15,16 +15,17 @@ void gen(int x) {
     ofstream failas(name);
     failas << "\tVardas" << "\tPavarde" << "\t Pazymiai" << endl;
     for (int i = 1; i < x + 1; i++) {
-        failas << "\tVardas" << i << "\tPavarde" << i << " " << pazGeneravimas() << endl;
+        string info = "\tVardas" + std::to_string(i) + "\tPavarde" + std::to_string(i) + " " + pazGeneravimas() + "\n";
+        failas << info;
     }
     cout << "Failo is " << x << " irasu sukurimo laikas:" << t.elapsed() << endl;
 };
 
-vector<duom> nusk(int x) {
+list<duom> nusk(int x) {
     Timer t;
-    string name = "stud" + std::to_string(x) + string(".txt");
+    string name = "stud" + std::to_string(x) + ".txt";
     std::ifstream failas(name);
-    vector<duom> stud;
+    list<duom> stud;
     if (failas.is_open()) {
         string eil;
         vector<int> paz;
@@ -52,32 +53,25 @@ vector<duom> nusk(int x) {
 
 };
 
-void isv(vector<duom> v, string x) {
+void isv(list<duom> l, string x) {
     duom asmuo;
-    Timer t;
-    vector<duom> m;
-    vector<duom> n;
-    for (int i = 0; i < v.size() - 1; i++) {
-        asmuo = v[i];
-        if (asmuo.gal >= 5.0) {
-            m.push_back(asmuo);
-        } else n.push_back(asmuo);
+    list<duom> m;
+    list<duom> n;
+    for (duom a : l) {
+        if (a.gal >= 5.0) {
+            m.push_back(a);
+        } else n.push_back(a);
     }
-    cout << "Studentu isskirstymas i 2 grupes uztruko:" << t.elapsed() << endl;
-    t.reset();
     ofstream f1("moksliukai" + x);
     ofstream f2("nevykeliai" + x);
-    for (int i = 0; i < m.size(); i++) {
-        asmuo = m[i];
-        f1 << left << setw(15) << asmuo.vardas
-           << left << setw(15) << asmuo.pavarde << left << setw(15) << asmuo.gal << endl;
+    for (duom a : l) {
+        f1 << left << setw(15) << a.vardas
+           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
     }
-    for (int i = 0; i < n.size(); i++) {
-        asmuo = n[i];
-        f2 << left << setw(15) << asmuo.vardas
-           << left << setw(15) << asmuo.pavarde << left << setw(15) << asmuo.gal << endl;
+    for (duom a : l) {
+        f2 << left << setw(15) << a.vardas
+           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
     }
-    cout << "Studentu isskirstymas i 2 failus uztruko:" << t.elapsed() << endl;
 };
 
 duom ivedimas(int &n) {
