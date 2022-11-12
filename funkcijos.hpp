@@ -25,6 +25,7 @@ public:
     }
 };
 
+
 duom ivedimas(int &n);
 
 duom generavimas(int &n);
@@ -37,7 +38,19 @@ void isvedimasMed(duom temp, int n);
 
 void gen(int x);
 
-list<duom> nusk(int x);
+bool palyginimas(const duom& a, const duom& b);
+
+double nusk_list1(int x);
+
+double nusk_vect1(int x);
+
+double nusk_list2(int x);
+
+double nusk_vect2(int x);
+
+double vect_st_part(int x);
+
+double vect_partition(int x);
 
 string pazGeneravimas();
 
