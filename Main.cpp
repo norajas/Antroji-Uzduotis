@@ -67,7 +67,7 @@ int main() {
         cin >> com6;
     }
     if (com6 == "T" || com6 == "t") {
-        cout << "Kiek eilučių duomenų generuoti?";
+        cout << "Kiek eiluciu duomenu generuoti?";
         cin >> x;
         cout << endl;
         gen(x);
