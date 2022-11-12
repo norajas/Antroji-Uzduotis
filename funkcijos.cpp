@@ -71,6 +71,7 @@ double nusk_list1(int x) {
         f2 << left << setw(15) << a.vardas
            << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
     }
+    m.clear();
     f1.close();
     f2.close();
     stud.clear();
@@ -126,6 +127,8 @@ double nusk_list2(int x) {
         f2 << left << setw(15) << a.vardas
            << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
     }
+    n.clear();
+    m.clear();
     f1.close();
     f2.close();
     stud.clear();
@@ -180,6 +183,7 @@ double nusk_vect1(int x) {
         f2 << left << setw(15) << a.vardas
            << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
     }
+    m.clear();
     f1.close();
     f2.close();
     stud.clear();
@@ -235,6 +239,8 @@ double nusk_vect2(int x) {
         f2 << left << setw(15) << a.vardas
            << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
     }
+    n.clear();
+    m.clear();
     f1.close();
     f2.close();
     stud.clear();
@@ -288,6 +294,7 @@ double vect_st_part(int x) {
         f2 << left << setw(15) << a.vardas
            << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
     }
+    n.clear();
     f1.close();
     f2.close();
     stud.clear();
@@ -340,6 +347,8 @@ double vect_partition(int x) {
         f2 << left << setw(15) << a.vardas
            << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
     }
+    n.clear();
+    m.clear();
     f1.close();
     f2.close();
     stud.clear();
@@ -460,41 +469,31 @@ duom generavimas(int &n) {
     paz.clear();
 }
 
-duom nuskaitymas(string f) {
+void nuskaitymas(string f) {
     vector<duom> stud;
     std::ifstream failas;
-    string pav;
-    failas.open("C:\\Users\\noraj\\CLionProjects\\untitled\\kursiokai.txt");
+    failas.open(f);
     if (failas.is_open()) {
         string eil;
         vector<int> paz;
         int p;
-        int n = 0;
-        getline(failas, eil);
-        std::stringstream s(eil);
-        string z;
-        while (s >> z) {
-            n += 1;
-        }
-        n -= 3;
         while (getline(failas, eil)) {
             duom asmuo;
             failas >> asmuo.vardas;
             failas >> asmuo.pavarde;
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < 4; i++) {
                 failas >> p;
                 paz.push_back(p);
             }
             failas >> asmuo.egz;
-            asmuo.vid = double(accumulate(paz.begin(), paz.end(), 0)) / n;
-            asmuo.med = paz[4 / 2];
+            asmuo.vid = double(accumulate(paz.begin(), paz.end(), 0)) / 4;
+            asmuo.med = paz.at(4/2);
             stud.push_back(asmuo);
             paz.clear();
         }
         sort(stud.begin(), stud.end(), [](const duom &a, const duom &b) {
             return a.vardas < b.vardas;
         });
-
         cout << left << setw(15) << "Vardas" << left << setw(15) << "Pavarde" << left << setw(20) <<
              "Galutinis(vid.)" << left << setw(20) << "Galutinis(med.)" << endl;
         for (auto &i: stud) {
@@ -504,7 +503,9 @@ duom nuskaitymas(string f) {
                  << left << setw(20) << setprecision(3) << (i.med * 0.4 + i.egz * 0.6) << endl;
         }
         failas.close();
+        stud.clear();
     } else { cout << "Klaida atidarant faila" << endl; }
+    exit(0);
 }
 
 void isvedimasVid(duom temp, int n) {
