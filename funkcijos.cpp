@@ -19,7 +19,7 @@ void gen(int x) {
     }
 };
 
-list<duom> nusk(int x) {
+double nusk(int x) {
     Timer t;
     string name = "stud" + std::to_string(x) + ".txt";
     std::ifstream failas(name);
@@ -45,33 +45,84 @@ list<duom> nusk(int x) {
             paz.clear();
         }
         failas.close();
-        cout << "Failo is " << x << " irasu nuskaitymo laikas:" << t.elapsed() << endl;
     } else cout << "Klaida atidarant faila";
-    return stud;
-
-};
-
-void isv(list<duom> l, string x) {
-    duom asmuo;
-    Timer t;
     list<duom> m;
     list<duom> n;
-    for (duom a : l) {
+    for (duom a : stud) {
         if (a.gal >= 5.0) {
             m.push_back(a);
         } else n.push_back(a);
     }
-    cout << "Studentu isskirstymas i 2 grupes uztruko:" << t.elapsed() << endl;
-    ofstream f1("moksliukai" + x);
-    ofstream f2("nevykeliai" + x);
-    for (duom a : l) {
+    auto l = t.elapsed();
+    ofstream f1("moksliukai_l_" + std::to_string(x));
+    ofstream f2("nevykeliai_l_" + std::to_string(x));
+    for (duom a : m) {
         f1 << left << setw(15) << a.vardas
            << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
     }
-    for (duom a : l) {
+    for (duom a : n) {
         f2 << left << setw(15) << a.vardas
            << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
     }
+    m.clear();
+    n.clear();
+    f1.close();
+    f2.close();
+    stud.clear();
+    return l;
+};
+
+double nusk_vect(int x) {
+    Timer t;
+    string name = "stud" + std::to_string(x) + ".txt";
+    std::ifstream failas(name);
+    vector<duom> stud;
+    if (failas.is_open()) {
+        string eil;
+        vector<int> paz;
+        int p;
+        int n = 4;
+        std::stringstream s(eil);
+        while (getline(failas, eil)) {
+            duom asmuo;
+            failas >> asmuo.vardas;
+            failas >> asmuo.pavarde;
+            for (int i = 0; i < n; i++) {
+                failas >> p;
+                paz.push_back(p);
+            }
+            failas >> asmuo.egz;
+            double vid = double(accumulate(paz.begin(), paz.end(), 0)) / 4;
+            asmuo.gal = vid * 0.4 + asmuo.egz * 0.6;
+            stud.push_back(asmuo);
+            paz.clear();
+        }
+        failas.close();
+    } else cout << "Klaida atidarant faila";
+    vector<duom> m;
+    vector<duom> n;
+    for (duom a : stud) {
+        if (a.gal >= 5.0) {
+            m.push_back(a);
+        } else n.push_back(a);
+    }
+    auto l = t.elapsed();
+    ofstream f1("moksliukai_v_" + std::to_string(x));
+    ofstream f2("nevykeliai_v_" + std::to_string(x));
+    for (duom a : m) {
+        f1 << left << setw(15) << a.vardas
+           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    }
+    for (duom a : n) {
+        f2 << left << setw(15) << a.vardas
+           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    }
+    m.clear();
+    n.clear();
+    f1.close();
+    f2.close();
+    stud.clear();
+    return l;
 };
 
 duom ivedimas(int &n) {
