@@ -3,10 +3,11 @@
 int main() {
     duom asmuo1;
     list<duom> stud;
-    int n, m;
-    string com1, com2, com3, com4, com5;
+    int n, m, x;
+    string com1, com2, com3, com4, com5, com6, f;
     cout << "Vykdyti programos spartos testa? (T/N):";
     cin >> com4;
+    cout << endl;
     while (com4 != "T" && com4 != "t" && com4 != "N" && com4 != "n") {
         cout << "Negaliojantis pasirinkimas, bandykite dar karta:";
         cin >> com4;
@@ -38,6 +39,7 @@ int main() {
     }
     cout << "Vykdyti programos spartos testa su skirtingais algoritmais? (T/N):";
     cin >> com5;
+    cout << endl;
     while (com5 != "T" && com5 != "t" && com5 != "N" && com5 != "n") {
         cout << "Negaliojantis pasirinkimas, bandykite dar karta:";
         cin >> com5;
@@ -57,18 +59,41 @@ int main() {
              << left << setw(20) << nusk_vect2(1000000)<< left << setw(20) << vect_partition(1000000) << endl;
         exit(0);
     }
+    cout << "Generuoti faila su atsitiktiniais duomenimis? (T/N):";
+    cin >> com6;
+    cout << endl;
+    while (com6 != "T" && com6 != "t" && com6 != "N" && com6 != "n") {
+        cout << "Negaliojantis pasirinkimas, bandykite dar karta:";
+        cin >> com6;
+    }
+    if (com6 == "T" || com6 == "t") {
+        cout << "Kiek eilučių duomenų generuoti?";
+        cin >> x;
+        cout << endl;
+        gen(x);
+        vector<duom> a = nusk(x);
+        isv(a, x);
+        exit(0);
+    }
     cout << "Duomenis nuskaityti is failo? (T/N):";
     cin >> com3;
+    cout << endl;
     while (com3 != "T" && com3 != "t" && com3 != "N" && com3 != "n") {
         cout << "Negaliojantis pasirinkimas, bandykite dar karta:";
         cin >> com3;
     }
-    if (com3 == "T" || com3 == "t") { nuskaitymas(); }
+    if (com3 == "T" || com3 == "t") {
+        cout << "Iveskite failo pavadinima:";
+        cin >> f;
+        cout<<endl;
+        nuskaitymas(f);}
     else {
         cout << "Iveskite studentu skaiciu:";
         cin >> n;
+        cout << endl;
         cout << "Pazymius generuoti atsitiktinai? (T/N):";
         cin >> com1;
+        cout << endl;
         while (com1 != "T" && com1 != "t" && com1 != "N" && com1 != "n") {
             cout << "Negaliojantis pasirinkimas, bandykite dar karta:";
             cin >> com1;
@@ -81,6 +106,7 @@ int main() {
     }
     cout << "Galutini bala skaiciuoti pagal vidurki ar mediana? (V/M):";
     cin >> com2;
+    cout << endl;
     while (com2 != "V" && com2 != "v" && com2 != "M" && com2 != "m") {
         cout << "Negaliojantis pasirinkimas, bandykite dar karta:";
         cin >> com2;
