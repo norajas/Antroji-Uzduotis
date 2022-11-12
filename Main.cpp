@@ -4,21 +4,57 @@ int main() {
     duom asmuo1;
     list<duom> stud;
     int n, m;
-    string com1, com2, com3, com4;
-    cout << "Generuoti failus? (T/N):";
+    string com1, com2, com3, com4, com5;
+    cout << "Vykdyti programos spartos testa? (T/N):";
     cin >> com4;
     while (com4 != "T" && com4 != "t" && com4 != "N" && com4 != "n") {
         cout << "Negaliojantis pasirinkimas, bandykite dar karta:";
         cin >> com4;
     }
     if (com4 == "T" || com4 == "t") {
-        int a;
-        cout << "Kiek studentu duomenu generuoti?";
-        cin >> a;
-        gen(a);
-        list<duom> v = nusk(a);
-        isv(v, "1");
+        HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+        SetConsoleTextAttribute(h, 10);
+        cout << left << setw(25) << "Irasu skaicius faile" << left << setw(30) << "Vienas naujas konteineris"
+             << left << setw(30) << "Du nauji konteineriai" << "\n"
+             << left << setw(25) << "" << left << setw(15) << "List" << left << setw(15) << "Vector"
+             << left << setw(15) << "List" << left << setw(15) << "Vector" << endl;
+        SetConsoleTextAttribute(h, 15);
+        cout << left << setw(25) << "1000"
+             << left << setw(15) << nusk_list1(1000) << left << setw(15) << nusk_vect1(1000)
+             << left << setw(15) << nusk_list2(1000) << left << setw(15) << nusk_vect2(1000) << endl;
+        cout << left << setw(25) << "10000"
+             << left << setw(15) << nusk_list1(10000) << left << setw(15) << nusk_vect1(10000)
+             << left << setw(15) << nusk_list2(10000) << left << setw(15) << nusk_vect2(10000) <<endl;
+        cout << left << setw(25) << "100000"
+             << left << setw(15) << nusk_list1(100000) << left << setw(15) << nusk_vect1(100000)
+             << left << setw(15) << nusk_list2(100000) << left << setw(15) << nusk_vect2(100000) << endl;
+        cout << left << setw(25) << "1000000"
+             << left << setw(15) << nusk_list1(1000000) << left << setw(15) << nusk_vect1(1000000)
+             << left << setw(15) << nusk_list2(1000000) << left << setw(15) << nusk_vect2(1000000) << endl;
+        cout << left << setw(25) << "10000000"
+             << left << setw(15) << nusk_list1(10000000) << left << setw(15) << nusk_vect1(10000000)
+             << left << setw(15) << nusk_list2(10000000) << left << setw(15) << nusk_vect2(10000000) << endl;
         cout << endl;
+    }
+    cout << "Vykdyti programos spartos testa su skirtingais algoritmais? (T/N):";
+    cin >> com5;
+    while (com5 != "T" && com5 != "t" && com5 != "N" && com5 != "n") {
+        cout << "Negaliojantis pasirinkimas, bandykite dar karta:";
+        cin >> com5;
+    }
+    if (com5 == "T" || com5 == "t") {
+        HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+        SetConsoleTextAttribute(h, 10);
+        cout << "\n" << left << setw(25) << "Irasu skaicius faile" << left << setw(20) << "find_if + move"
+             << left << setw(20) << "stable_partition" <<  left << setw(20) << "find_if + 2x move"
+             << left << setw(20) << "partition_copy" << endl;
+        SetConsoleTextAttribute(h, 15);
+        cout << left << setw(25) << "100000"
+             << left << setw(20) << nusk_vect1(100000) << left << setw(20) << vect_st_part(100000)
+             << left << setw(20) << nusk_vect2(100000) << left << setw(20) << vect_partition(100000) << endl;
+        cout << left << setw(25) << "1000000"
+             << left << setw(20) << nusk_vect1(1000000) << left << setw(20) << vect_st_part(1000000)
+             << left << setw(20) << nusk_vect2(1000000)<< left << setw(20) << vect_partition(1000000) << endl;
         exit(0);
     }
     cout << "Duomenis nuskaityti is failo? (T/N):";
