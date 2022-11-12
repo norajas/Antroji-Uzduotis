@@ -37,8 +37,8 @@ void isvedimasMed(duom temp, int n);
 
 void gen(int x);
 
-list<duom> nusk(int x);
+double nusk(int x);
+
+double nusk_vect(int x);
 
 string pazGeneravimas();
-
-void isv(list<duom> l, string x);
