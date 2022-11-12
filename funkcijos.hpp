@@ -30,7 +30,7 @@ duom ivedimas(int &n);
 
 duom generavimas(int &n);
 
-duom nuskaitymas();
+duom nuskaitymas(string f);
 
 void isvedimasVid(duom temp, int n);
 
@@ -54,4 +54,6 @@ double vect_partition(int x);
 
 string pazGeneravimas();
 
-void isv(list<duom> l, string x);
+vector<duom> nusk(int x);
+
+void isv(vector<duom> v, int x);
