@@ -1,5 +1,12 @@
 #include "funkcijos.hpp"
 
+Studentas::Studentas(string v, string p, vector<int> paz, int e) {
+    Vardas(v);
+    Pavarde(p);
+    Pazymiai(paz);
+    Egzaminas(e);
+}
+
 string pazGeneravimas() {
     vector<string> paz;
     for (int i = 0; i < 5; i++) {
@@ -8,6 +15,10 @@ string pazGeneravimas() {
     string p = std::accumulate(paz.begin(), paz.end(), std::string(""));
     return p;
 };
+
+bool palyginimas(const Studentas &a, const Studentas &b) {
+    return a.getGalutinis() < b.getGalutinis();
+}
 
 void gen(int x) {
     string name = "stud" + std::to_string(x) + ".txt";
@@ -19,15 +30,9 @@ void gen(int x) {
     }
 };
 
-bool palyginimas(const duom &a, const duom &b) {
-    return a.gal < b.gal;
-}
-
-double nusk_list1(int x) {
-    Timer t;
-    string name = "stud" + std::to_string(x) + ".txt";
-    std::ifstream failas(name);
-    list<duom> stud;
+vector<Studentas> nuskaitymas_vect(string fname) {
+    std::ifstream failas(fname);
+    vector<Studentas> studentai;
     if (failas.is_open()) {
         string eil;
         vector<int> paz;
@@ -35,17 +40,19 @@ double nusk_list1(int x) {
         int n = 4;
         std::stringstream s(eil);
         while (getline(failas, eil)) {
-            duom asmuo;
-            failas >> asmuo.vardas;
-            failas >> asmuo.pavarde;
+            string vardas, pavarde;
+            int egz;
+            failas >> vardas;
+            failas >> pavarde;
             for (int i = 0; i < n; i++) {
                 failas >> p;
                 paz.push_back(p);
             }
-            failas >> asmuo.egz;
-            double vid = double(accumulate(paz.begin(), paz.end(), 0)) / 4;
-            asmuo.gal = vid * 0.4 + asmuo.egz * 0.6;
-            stud.push_back(asmuo);
+            failas >> egz;
+            Studentas stud(vardas, pavarde, paz, egz);
+            stud.Galutinis();
+            stud.Galutinis_m();
+            studentai.push_back(stud);
             paz.clear();
         }
         failas.close();
@@ -53,469 +60,414 @@ double nusk_list1(int x) {
         cout << "Klaida atidarant faila";
         exit(0);
     }
-    stud.sort(palyginimas);
-    list<duom> n;
-    auto z = (std::find_if(stud.begin(), stud.end(), [](const duom &s) {
-        return s.gal == 5.0;
+    return studentai;
+}
+
+list<Studentas> nuskaitymas_list(string fname) {
+    std::ifstream failas(fname);
+    list<Studentas> studentai;
+    if (failas.is_open()) {
+        string eil;
+        vector<int> paz;
+        int p;
+        int n = 4;
+        std::stringstream s(eil);
+        while (getline(failas, eil)) {
+            Studentas stud;
+            string vardas, pavarde;
+            int egz;
+            failas >> vardas;
+            stud.Vardas(vardas);
+            failas >> pavarde;
+            stud.Pavarde(pavarde);
+            for (int i = 0; i < n; i++) {
+                failas >> p;
+                paz.push_back(p);
+            }
+            stud.Pazymiai(paz);
+            failas >> egz;
+            stud.Egzaminas(egz);
+            stud.Galutinis();
+            stud.Galutinis_m();
+            studentai.push_back(stud);
+            paz.clear();
+        }
+        failas.close();
+    } else {
+        cout << "Klaida atidarant faila";
+        exit(0);
+    }
+    return studentai;
+}
+
+double nusk_list1(int x) {
+    Timer t;
+    string fname = "stud" + std::to_string(x) + ".txt";
+    list<Studentas> studentai = nuskaitymas_list(fname);
+    studentai.sort(palyginimas);
+    list<Studentas> n;
+    auto z = (std::find_if(studentai.begin(), studentai.end(), [](const Studentas &s) {
+        return s.getGalutinis() == 5.0;
     }));
-    std::move(stud.begin(), z, std::back_inserter(n));
-    stud.erase(stud.begin(), z);
+    std::move(studentai.begin(), z, std::back_inserter(n));
+    studentai.erase(studentai.begin(), z);
     auto l = t.elapsed();
     ofstream f1("moksliukai_l" + std::to_string(x));
     ofstream f2("nevykeliai_l" + std::to_string(x));
-    for (duom a: stud) {
-        f1 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    for (Studentas a: studentai) {
+        f1 << a.info();
     }
-    for (duom a: n) {
-        f2 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
-    }
-    m.clear();
+    for (Studentas a: n) {
+        f2 << a.info();
+    };
+    n.clear();
     f1.close();
     f2.close();
-    stud.clear();
+    studentai.clear();
     return l;
 };
 
 double nusk_list2(int x) {
     Timer t;
-    string name = "stud" + std::to_string(x) + ".txt";
-    std::ifstream failas(name);
-    list<duom> stud;
-    if (failas.is_open()) {
-        string eil;
-        vector<int> paz;
-        int p;
-        int n = 4;
-        std::stringstream s(eil);
-        while (getline(failas, eil)) {
-            duom asmuo;
-            failas >> asmuo.vardas;
-            failas >> asmuo.pavarde;
-            for (int i = 0; i < n; i++) {
-                failas >> p;
-                paz.push_back(p);
-            }
-            failas >> asmuo.egz;
-            double vid = double(accumulate(paz.begin(), paz.end(), 0)) / 4;
-            asmuo.gal = vid * 0.4 + asmuo.egz * 0.6;
-            stud.push_back(asmuo);
-            paz.clear();
-        }
-        failas.close();
-    } else {
-        cout << "Klaida atidarant faila";
-        exit(0);
-    }
-    stud.sort(palyginimas);
-    list<duom> n;
-    list<duom> m;
-    auto z = (std::find_if(stud.begin(), stud.end(), [](const duom &s) {
-        return s.gal == 5.0;
+    string fname = "stud" + std::to_string(x) + ".txt";
+    list<Studentas> studentai = nuskaitymas_list(fname);
+    studentai.sort(palyginimas);
+    list<Studentas> n;
+    list<Studentas> m;
+    auto z = (std::find_if(studentai.begin(), studentai.end(), [](const Studentas &s) {
+        return s.getGalutinis() == 5.0;
     }));
-    std::move(stud.begin(), z, std::back_inserter(n));
-    std::move(z, stud.end(), std::back_inserter(m));
+    std::move(studentai.begin(), z, std::back_inserter(n));
+    std::move(z, studentai.end(), std::back_inserter(m));
     auto l = t.elapsed();
     ofstream f1("moksliukai_l2" + std::to_string(x));
     ofstream f2("nevykeliai_l2" + std::to_string(x));
-    for (duom a: m) {
-        f1 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    for (Studentas a: m) {
+        f1 << a.info();
     }
-    for (duom a: n) {
-        f2 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    for (Studentas a: n) {
+        f2 << a.info();
     }
     n.clear();
     m.clear();
     f1.close();
     f2.close();
-    stud.clear();
+    studentai.clear();
     return l;
 };
 
 double nusk_vect1(int x) {
     Timer t;
-    string name = "stud" + std::to_string(x) + ".txt";
-    std::ifstream failas(name);
-    vector<duom> stud;
-    if (failas.is_open()) {
-        string eil;
-        vector<int> paz;
-        int p;
-        int n = 4;
-        std::stringstream s(eil);
-        while (getline(failas, eil)) {
-            duom asmuo;
-            failas >> asmuo.vardas;
-            failas >> asmuo.pavarde;
-            for (int i = 0; i < n; i++) {
-                failas >> p;
-                paz.push_back(p);
-            }
-            failas >> asmuo.egz;
-            double vid = double(accumulate(paz.begin(), paz.end(), 0)) / 4;
-            asmuo.gal = vid * 0.4 + asmuo.egz * 0.6;
-            stud.push_back(asmuo);
-            paz.clear();
-        }
-        failas.close();
-    } else {
-        cout << "Klaida atidarant faila";
-        exit(0);
-    }
-    sort(stud.begin(), stud.end(), palyginimas);
-    vector<duom> n;
-    auto z = (std::find_if(stud.begin(), stud.end(), [](const duom &s) {
-        return s.gal == 5.0;
+    string fname = "stud" + std::to_string(x) + ".txt";
+    vector<Studentas> studentai = nuskaitymas_vect(fname);
+    sort(studentai.begin(), studentai.end(), palyginimas);
+    vector<Studentas> n;
+    auto z = (std::find_if(studentai.begin(), studentai.end(), [](const Studentas &s) {
+        return s.getGalutinis() == 5.0;
     }));
-    std::move(stud.begin(), z, std::back_inserter(n));
-    stud.erase(stud.begin(), z);
+    std::move(studentai.begin(), z, std::back_inserter(n));
+    studentai.erase(studentai.begin(), z);
     auto l = t.elapsed();
     ofstream f1("moksliukai_v" + std::to_string(x));
     ofstream f2("nevykeliai_v" + std::to_string(x));
-    for (duom a: stud) {
-        f1 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    for (Studentas a: studentai) {
+        f1 << a.info();
     }
-    for (duom a: n) {
-        f2 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    for (Studentas a: n) {
+        f2 << a.info();
     }
-    m.clear();
+    n.clear();
     f1.close();
     f2.close();
-    stud.clear();
+    studentai.clear();
     return l;
 };
 
 double nusk_vect2(int x) {
     Timer t;
-    string name = "stud" + std::to_string(x) + ".txt";
-    std::ifstream failas(name);
-    vector<duom> stud;
-    if (failas.is_open()) {
-        string eil;
-        vector<int> paz;
-        int p;
-        int n = 4;
-        std::stringstream s(eil);
-        while (getline(failas, eil)) {
-            duom asmuo;
-            failas >> asmuo.vardas;
-            failas >> asmuo.pavarde;
-            for (int i = 0; i < n; i++) {
-                failas >> p;
-                paz.push_back(p);
-            }
-            failas >> asmuo.egz;
-            double vid = double(accumulate(paz.begin(), paz.end(), 0)) / 4;
-            asmuo.gal = vid * 0.4 + asmuo.egz * 0.6;
-            stud.push_back(asmuo);
-            paz.clear();
-        }
-        failas.close();
-    } else {
-        cout << "Klaida atidarant faila";
-        exit(0);
-    }
-    sort(stud.begin(), stud.end(), palyginimas);
-    vector<duom> n;
-    vector<duom> m;
-    auto z = (std::find_if(stud.begin(), stud.end(), [](const duom &s) {
-        return s.gal == 5.0;
+    string fname = "stud" + std::to_string(x) + ".txt";
+    vector<Studentas> studentai = nuskaitymas_vect(fname);
+    sort(studentai.begin(), studentai.end(), palyginimas);
+    vector<Studentas> n;
+    vector<Studentas> m;
+    auto z = (std::find_if(studentai.begin(), studentai.end(), [](const Studentas &s) {
+        return s.getGalutinis() == 5.0;
     }));
-    std::move(stud.begin(), z, std::back_inserter(n));
-    std::move(z, stud.end(), std::back_inserter(m));
+    std::move(studentai.begin(), z, std::back_inserter(n));
+    std::move(z, studentai.end(), std::back_inserter(m));
     auto l = t.elapsed();
     ofstream f1("moksliukai_v2" + std::to_string(x));
     ofstream f2("nevykeliai_v2" + std::to_string(x));
-    for (duom a: m) {
-        f1 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    for (Studentas a: m) {
+        f1 << a.info();
     }
-    for (duom a: n) {
-        f2 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    for (Studentas a: n) {
+        f2 << a.info();
     }
     n.clear();
     m.clear();
     f1.close();
     f2.close();
-    stud.clear();
+    studentai.clear();
     return l;
 };
 
 double vect_st_part(int x) {
     Timer t;
-    string name = "stud" + std::to_string(x) + ".txt";
-    std::ifstream failas(name);
-    vector<duom> stud;
-    if (failas.is_open()) {
-        string eil;
-        vector<int> paz;
-        int p;
-        int n = 4;
-        std::stringstream s(eil);
-        while (getline(failas, eil)) {
-            duom asmuo;
-            failas >> asmuo.vardas;
-            failas >> asmuo.pavarde;
-            for (int i = 0; i < n; i++) {
-                failas >> p;
-                paz.push_back(p);
-            }
-            failas >> asmuo.egz;
-            double vid = double(accumulate(paz.begin(), paz.end(), 0)) / 4;
-            asmuo.gal = vid * 0.4 + asmuo.egz * 0.6;
-            stud.push_back(asmuo);
-            paz.clear();
-        }
-        failas.close();
-    } else {
-        cout << "Klaida atidarant faila";
-        exit(0);
-    }
-    vector<duom> n;
-    auto it = std::stable_partition(stud.begin(), stud.end(), [](const duom &s) {
-        return s.gal < 5.0;
+    string fname = "stud" + std::to_string(x) + ".txt";
+    vector<Studentas> studentai = nuskaitymas_vect(fname);
+    vector<Studentas> n;
+    auto it = std::stable_partition(studentai.begin(), studentai.end(), [](const Studentas &s) {
+        return s.getGalutinis() < 5.0;
     });
-    std::copy(stud.begin(), it, std::back_inserter(n));
-    stud.erase(stud.begin(), it);
+    std::copy(studentai.begin(), it, std::back_inserter(n));
+    studentai.erase(studentai.begin(), it);
     auto l = t.elapsed();
     ofstream f1("moksliukai_rem" + std::to_string(x));
     ofstream f2("nevykeliai_rem" + std::to_string(x));
-    for (duom a: stud) {
-        f1 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    for (Studentas a: studentai) {
+        f1 << a.info();
     }
-    for (duom a: n) {
-        f2 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    for (Studentas a: n) {
+        f2 << a.info();
     }
     n.clear();
     f1.close();
     f2.close();
-    stud.clear();
+    studentai.clear();
     return l;
 };
 
 double vect_partition(int x) {
     Timer t;
-    string name = "stud" + std::to_string(x) + ".txt";
-    std::ifstream failas(name);
-    vector<duom> stud;
-    if (failas.is_open()) {
-        string eil;
-        vector<int> paz;
-        int p;
-        int n = 4;
-        std::stringstream s(eil);
-        while (getline(failas, eil)) {
-            duom asmuo;
-            failas >> asmuo.vardas;
-            failas >> asmuo.pavarde;
-            for (int i = 0; i < n; i++) {
-                failas >> p;
-                paz.push_back(p);
-            }
-            failas >> asmuo.egz;
-            double vid = double(accumulate(paz.begin(), paz.end(), 0)) / 4;
-            asmuo.gal = vid * 0.4 + asmuo.egz * 0.6;
-            stud.push_back(asmuo);
-            paz.clear();
-        }
-        failas.close();
-    } else {
-        cout << "Klaida atidarant faila";
-        exit(0);
-    }
-    vector<duom> n;
-    vector<duom> m;
-    std::partition_copy(stud.begin(), stud.end(), std::back_inserter(n), std::back_inserter(m), [](const duom &s) {
-        return s.gal < 5.0;
-    });
+    string fname = "stud" + std::to_string(x) + ".txt";
+    vector<Studentas> studentai = nuskaitymas_vect(fname);
+    vector<Studentas> n;
+    vector<Studentas> m;
+    std::partition_copy(studentai.begin(), studentai.end(), std::back_inserter(n),
+                        std::back_inserter(m), [](const Studentas &s) {
+                return s.getGalutinis() < 5.0;
+            });
     auto l = t.elapsed();
     ofstream f1("moksliukai_part" + std::to_string(x));
     ofstream f2("nevykeliai_part" + std::to_string(x));
-    for (duom a: m) {
-        f1 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    for (Studentas a: m) {
+        f1 << a.info();
     }
-    for (duom a: n) {
-        f2 << left << setw(15) << a.vardas
-           << left << setw(15) << a.pavarde << left << setw(15) << a.gal << endl;
+    for (Studentas a: n) {
+        f2 << a.info();
     }
     n.clear();
     m.clear();
     f1.close();
     f2.close();
-    stud.clear();
+    studentai.clear();
     return l;
 };
 
-vector<duom> nusk(int x) {
+void isv(vector<Studentas> v, int x) {
+    Studentas stud;
     Timer t;
-    string name = "stud" + std::to_string(x) + string(".txt");
-    std::ifstream failas(name);
-    vector<duom> stud;
-    if (failas.is_open()) {
-        string eil;
-        vector<int> paz;
-        int p;
-        int n = 4;
-        std::stringstream s(eil);
-        while (getline(failas, eil)) {
-            duom asmuo;
-            failas >> asmuo.vardas;
-            failas >> asmuo.pavarde;
-            for (int i = 0; i < n; i++) {
-                failas >> p;
-                paz.push_back(p);
-            }
-            failas >> asmuo.egz;
-            double vid = double(accumulate(paz.begin(), paz.end(), 0)) / 4;
-            asmuo.gal = vid * 0.4 + asmuo.egz * 0.6;
-            stud.push_back(asmuo);
-            paz.clear();
-        }
-        failas.close();
-        cout << "Failo is " << x << " irasu nuskaitymo laikas:" << t.elapsed() << endl;
-    } else cout << "Klaida atidarant faila";
-    return stud;
-};
-
-void isv(vector<duom> v, int x) {
-    duom asmuo;
-    Timer t;
-    vector<duom> m;
-    vector<duom> n;
+    vector<Studentas> m;
+    vector<Studentas> n;
     for (int i = 0; i < v.size() - 1; i++) {
-        asmuo = v[i];
-        if (asmuo.gal >= 5.0) {
-            m.push_back(asmuo);
-        } else n.push_back(asmuo);
+        stud = v[i];
+        if (stud.getGalutinis() >= 5.0) {
+            m.push_back(stud);
+        } else n.push_back(stud);
     }
     cout << "Studentu isskirstymas i 2 grupes uztruko:" << t.elapsed() << endl;
     t.reset();
     ofstream f1("moksliukai" + std::to_string(x));
     ofstream f2("nevykeliai" + std::to_string(x));
     for (int i = 0; i < m.size(); i++) {
-        asmuo = m[i];
-        f1 << left << setw(15) << asmuo.vardas
-           << left << setw(15) << asmuo.pavarde << left << setw(15) << asmuo.gal << endl;
+        stud = m[i];
+        f1 << stud.info();
     }
     for (int i = 0; i < n.size(); i++) {
-        asmuo = n[i];
-        f2 << left << setw(15) << asmuo.vardas
-           << left << setw(15) << asmuo.pavarde << left << setw(15) << asmuo.gal << endl;
+        stud = n[i];
+        f2 << stud.info();
     }
     cout << "Studentu isskirstymas i 2 failus uztruko:" << t.elapsed() << endl;
 };
 
-duom ivedimas(int &n) {
+Studentas ivedimas(int &n, int x) {
+    string vardas, pavarde;
+    int egz, paz_sk, p;
     vector<int> paz;
-    int p;
     int sum = 0;
-    duom asmuo;
     cout << "Iveskite varda:";
-    cin >> asmuo.vardas;
+    cin >> vardas;
     cout << "Iveskite pavarde:";
-    cin >> asmuo.pavarde;
+    cin >> pavarde;
     cout << "Iveskite egzamino pazymi:";
-    cin >> asmuo.egz;
-    string command = "N";
-    while (command != "T" && command != "t") {
-        cout << "Iveskite  pazymi:";
-        cin >> p;
-        paz.push_back(p);
-        cout << "Baigti pazymiu ivedima?(T/N)";
-        cin >> command;
+    cin >> egz;
+    cout << "Iveskite pazymiu skaiciu:";
+    cin >> paz_sk;
+    if (x == 0) {
+        for (int i = 0; i < paz_sk; i++) {
+            cout << "Iveskite  pazymi:";
+            cin >> p;
+            paz.push_back(p);
+        }
+    } else {
+        for (int i = 0; i < paz_sk; i++) {
+            paz.push_back(rand() % 10 + 1);
+            cout << "Sugeneruotas pazymys:" << paz.back() << endl;
+        }
+    }
+    Studentas stud = Studentas(vardas, pavarde, paz, egz);
+    stud.Galutinis();
+    stud.Galutinis_m();
+    paz.clear();
+    return stud;
+}
+
+
+void failo_nusk(string fname) {
+    vector<Studentas> studentai = nuskaitymas_vect(fname);
+    sort(studentai.begin(), studentai.end(), [](const Studentas &a, const Studentas &b) {
+        return a.getVardas() < b.getVardas();
+    });
+    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(h, 10);
+    cout << left << setw(15) << "Vardas" << left << setw(15) << "Pavarde" << left << setw(20) <<
+         "Galutinis(vid.)" << left << setw(20) << "Galutinis(med.)" << endl;
+    SetConsoleTextAttribute(h, 15);
+    for (Studentas i: studentai) {
+        cout << i.info() << left << setw(15) << setprecision(3) << i.getGalutinis_m() << endl;
+    }
+    studentai.clear();
+}
+
+
+void isvedimasVid(Studentas temp, int n) {
+    cout << temp.info() << endl;
+}
+
+void isvedimasMed(Studentas temp, int n) {
+    cout << temp.info_m() << endl;
+}
+
+void print_sparta(int x) {
+    cout << left << setw(25) << x
+         << left << setw(15) << nusk_list1(x) << left << setw(15) << nusk_vect1(x)
+         << left << setw(15) << nusk_list2(x) << left << setw(15) << nusk_vect2(x) << endl;
+}
+
+int print_pradzia() {
+    int p;
+    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(h, 9);
+    cout << "Pasirinkite programos funkcija (irasykite funkcijos numeri):\n";
+    SetConsoleTextAttribute(h, 15);
+    cout << "(1) Programos spartos testas (list ir vector)\n" <<
+         "(2) Programos spartos testas (tik vector)\n" << "(3) Failo su atsitiktiniais duomenimis generavimas\n" <<
+         "(4) Duomenu nuskaitymas is failo\n" << "(5) Duomenu ivedimas\n" << "(0) Baigti programos veikima\n";
+    cin >> p;
+    return p;
+}
+
+void testas() {
+    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(h, 10);
+    cout << left << setw(25) << "Irasu skaicius faile" << left << setw(30) << "Vienas naujas konteineris"
+         << left << setw(30) << "Du nauji konteineriai" << "\n"
+         << left << setw(25) << "" << left << setw(15) << "List" << left << setw(15) << "Vector"
+         << left << setw(15) << "List" << left << setw(15) << "Vector" << endl;
+    SetConsoleTextAttribute(h, 15);
+    print_sparta(1000);
+//        print_sparta(10000);
+//        print_sparta(100000);
+//        print_sparta(1000000);
+//        print_sparta(10000000);
+    cout << endl;
+}
+
+void testas2() {
+    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(h, 10);
+    cout << "\n" << left << setw(25) << "Irasu skaicius faile" << left << setw(20) << "find_if + move"
+         << left << setw(20) << "stable_partition" << left << setw(20) << "find_if + 2x move"
+         << left << setw(20) << "partition_copy" << endl;
+    SetConsoleTextAttribute(h, 15);
+    cout << left << setw(25) << "1000"
+         << left << setw(20) << nusk_vect1(1000) << left << setw(20) << vect_st_part(1000)
+         << left << setw(20) << nusk_vect2(1000) << left << setw(20) << vect_partition(1000) << endl;
+//        cout << left << setw(25) << "1000000"
+//             << left << setw(20) << nusk_vect1(1000000) << left << setw(20) << vect_st_part(1000000)
+//             << left << setw(20) << nusk_vect2(1000000)<< left << setw(20) << vect_partition(1000000) << endl;
+}
+
+void failo_gen() {
+    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(h, 9);
+    int x, n;
+    cout << "Kiek failu generuoti?";
+    cin >> n;
+    for (int a = 1; a <= n; a++) {
+        cout << "Kiek eiluciu duomenu generuoti?";
+        cin >> x;
         cout << endl;
+        gen(x);
     }
-    sum = std::accumulate(paz.begin(), paz.end(), 0);
-    sort(paz.begin(), paz.end());
-    if ((paz.size() - 1) % 2 == 0) {
-        asmuo.med = double(paz[(paz.size() - 1) / 2] + paz[(paz.size() - 1) / 2 + 1]) / 2;
-    } else asmuo.med = paz[(paz.size() - 1) / 2];
-    asmuo.vid = (double) sum / (double) (paz.size());
-    return asmuo;
-    paz.clear();
 }
 
-duom generavimas(int &n) {
-    vector<int> paz;
-    int sum, s;
-    duom asmuo;
-    cout << "Iveskite varda:";
-    cin >> asmuo.vardas;
-    cout << "Iveskite pavarde:";
-    cin >> asmuo.pavarde;
-    cout << "Iveskite egzamino pazymi:";
-    cin >> asmuo.egz;
-    cout << "Iveskite namu darbu pazymiu skaiciu:";
-    cin >> s;
-    for (int i = 0; i < s; i++) {
-        paz.push_back(rand() % 10 + 1);
-        cout << "Sugeneruotas pazymys:" << paz.back() << endl;
-    }
-    sum = accumulate(paz.begin(), paz.end(), 0);
-    sort(paz.begin(), paz.end());
-    if ((s - 1) % 2 == 0) { asmuo.med = double(paz[(s - 1) / 2] + paz[(s - 1) / 2 + 1]) / 2; }
-    else asmuo.med = paz[(s - 1) / 2];
-    asmuo.vid = (double) sum / (double) s;
-    return asmuo;
-    paz.clear();
+void f_nusk() {
+    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(h, 9);
+    string f;
+    cout << "Iveskite failo pavadinima:";
+    cin >> f;
+    cout << endl;
+    failo_nusk(f);
 }
 
-void nuskaitymas(string f) {
-    vector<duom> stud;
-    std::ifstream failas;
-    failas.open(f);
-    if (failas.is_open()) {
-        string eil;
-        vector<int> paz;
-        int p;
-        while (getline(failas, eil)) {
-            duom asmuo;
-            failas >> asmuo.vardas;
-            failas >> asmuo.pavarde;
-            for (int i = 0; i < 4; i++) {
-                failas >> p;
-                paz.push_back(p);
-            }
-            failas >> asmuo.egz;
-            asmuo.vid = double(accumulate(paz.begin(), paz.end(), 0)) / 4;
-            asmuo.med = paz.at(4/2);
-            stud.push_back(asmuo);
-            paz.clear();
-        }
-        sort(stud.begin(), stud.end(), [](const duom &a, const duom &b) {
-            return a.vardas < b.vardas;
-        });
+void duom_ivedimas() {
+    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(h, 9);
+    list<Studentas> studentai;
+    int n, m;
+    string com, com2;
+    cout << "Iveskite studentu skaiciu:";
+    cin >> n;
+    cout << endl;
+    cout << "Pazymius generuoti atsitiktinai? (T/N):";
+    cin >> com;
+    cout << endl;
+    while (com != "T" && com != "t" && com != "N" && com != "n") {
+        cout << "Negaliojantis pasirinkimas, bandykite dar karta:";
+        cin >> com;
+    }
+    if (com == "N" || com == "n") {
+        for (int i = 0; i < n; i++) { studentai.push_back(ivedimas(m, 0)); }
+    } else {
+        for (int i = 0; i < n; i++) { studentai.push_back(ivedimas(m, 1)); }
+    }
+    cout << "Galutini bala skaiciuoti pagal vidurki ar mediana? (V/M):";
+    cin >> com2;
+    cout << endl;
+    while (com2 != "V" && com2 != "v" && com2 != "M" && com2 != "m") {
+        cout << "Negaliojantis pasirinkimas, bandykite dar karta:";
+        cin >> com2;
+    }
+    if (com2 == "V" || com2 == "v") {
+        HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+        SetConsoleTextAttribute(h, 10);
         cout << left << setw(15) << "Vardas" << left << setw(15) << "Pavarde" << left << setw(20) <<
-             "Galutinis(vid.)" << left << setw(20) << "Galutinis(med.)" << endl;
-        for (auto &i: stud) {
-            cout << left << setw(15) << i.vardas
-                 << left << setw(15) << i.pavarde
-                 << left << setw(20) << setprecision(3) << (i.vid * 0.4 + i.egz * 0.6)
-                 << left << setw(20) << setprecision(3) << (i.med * 0.4 + i.egz * 0.6) << endl;
+             "Galutinis(vid.)" << endl;
+        SetConsoleTextAttribute(h, 15);
+        for (Studentas a: studentai) {
+            isvedimasVid(a, m);
         }
-        failas.close();
-        stud.clear();
-    } else { cout << "Klaida atidarant faila" << endl; }
-    exit(0);
-}
-
-void isvedimasVid(duom temp, int n) {
-    cout << left << setw(15) << temp.vardas
-         << left << setw(15) << temp.pavarde
-         << left << setw(20) << setprecision(3) << (temp.vid * 0.4 + temp.egz * 0.6) << endl;
-}
-
-void isvedimasMed(duom temp, int n) {
-    cout << left << setw(15) << temp.vardas
-         << left << setw(15) << temp.pavarde
-         << left << setw(20) << setprecision(3) << (temp.med * 0.4 + temp.egz * 0.6) << endl;
+    } else {
+        HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+        SetConsoleTextAttribute(h, 10);
+        cout << left << setw(15) << "Vardas" << left << setw(15) << "Pavarde" << left << setw(20) <<
+             "Galutinis(med.)" << endl;
+        SetConsoleTextAttribute(h, 5);
+        for (Studentas a: studentai) {
+            isvedimasMed(a, m);
+        }
+    }
 }
