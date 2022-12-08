@@ -1,4 +1,4 @@
-#include "funkcijos.hpp"
+#include "funkcijos.cpp"
 
 int main() {
     int x = print_pradzia();
