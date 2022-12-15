@@ -27,7 +27,7 @@ void gen(int x) {
     failas << "\tVardas" << "\tPavarde" << "\t Pazymiai";
     string info;
     for (int i = 1; i < x + 1; i++) {
-        string info = "\n\tVardas" + std::to_string(i) + "\tPavarde" + std::to_string(i) + " " + pazGeneravimas();  
+        info = info + "\n\tVardas" + std::to_string(i) + "\tPavarde" + std::to_string(i) + " " + pazGeneravimas();  
     }
     failas << info;
     failas.close();
@@ -342,7 +342,7 @@ void failo_nusk(string fname) {
          "Galutinis(vid.)" << left << setw(20) << "Galutinis(med.)" << endl;
     SetConsoleTextAttribute(h, 15);
     for (Studentas i: studentai) {
-        cout << i.info() << left << setw(15) << setprecision(3) << i.getGalutinis_m() << endl;
+        cout << i.info() << std::right << setw(10) << setprecision(3) << i.getGalutinis_m() << endl;
     }
     studentai.clear();
 }
