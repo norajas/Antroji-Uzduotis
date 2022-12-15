@@ -1,5 +1,5 @@
-#ifndef INC_1_1_FUNKCIJOS_HPP
-#define INC_1_1_FUNKCIJOS_HPP
+#ifndef INC_1_2_FUNKCIJOS_HPP
+#define INC_1_2_FUNKCIJOS_HPP
 
 #include "mano_lib.hpp"
 
@@ -15,6 +15,34 @@ public:
     Studentas(){
         vardas_=""; pavarde_="", pazymiai_={0}, egzaminas_=0, galutinis_=0, galutinis_m_=0;}
     Studentas(string v, string p, vector<int> paz, int e);
+    
+     //destructor
+    ~Studentas(){pazymiai_.clear();
+    }
+
+    //copy constructor
+    Studentas(const Studentas &s){
+        vardas_ = s.vardas_;
+        pavarde_ = s.pavarde_;
+        egzaminas_ = s.egzaminas_;
+        copy(s.pazymiai_.begin(), s.pazymiai_.end(), std::back_inserter(pazymiai_));
+        galutinis_ = s.galutinis_;
+        galutinis_m_ = s.galutinis_m_;
+    }
+
+    //copy assignment operator
+    Studentas& operator= (const Studentas& s){
+        if (this == &s){
+            return *this;
+        }
+        vardas_ = s.vardas_;
+        pavarde_ = s.pavarde_;
+        egzaminas_ = s.egzaminas_;
+        copy(s.pazymiai_.begin(), s.pazymiai_.end(), std::back_inserter(pazymiai_));
+        galutinis_ = s.galutinis_;
+        galutinis_m_ = s.galutinis_m_;
+        return *this;
+    }
 
     //getters
     string getVardas() {return vardas_;}
@@ -126,4 +154,4 @@ void f_nusk();
 
 void duom_ivedimas();
 
-#endif //INC_1_1_FUNKCIJOS_HPP
+#endif //INC_1_2_FUNKCIJOS_HPP
