@@ -13,6 +13,7 @@ string pazGeneravimas() {
         paz.push_back(std::to_string(rand() % 10 + 1) + " ");
     }
     string p = std::accumulate(paz.begin(), paz.end(), std::string(""));
+    paz.clear();
     return p;
 };
 
@@ -23,11 +24,13 @@ bool palyginimas(const Studentas &a, const Studentas &b) {
 void gen(int x) {
     string name = "stud" + std::to_string(x) + ".txt";
     ofstream failas(name);
-    failas << "\tVardas" << "\tPavarde" << "\t Pazymiai" << endl;
+    failas << "\tVardas" << "\tPavarde" << "\t Pazymiai";
+    string info;
     for (int i = 1; i < x + 1; i++) {
-        string info = "\tVardas" + std::to_string(i) + "\tPavarde" + std::to_string(i) + " " + pazGeneravimas() + "\n";
-        failas << info;
+        string info = "\n\tVardas" + std::to_string(i) + "\tPavarde" + std::to_string(i) + " " + pazGeneravimas();  
     }
+    failas << info;
+    failas.close();
 };
 
 vector<Studentas> nuskaitymas_vect(string fname) {
@@ -289,6 +292,10 @@ void isv(vector<Studentas> v, int x) {
         f2 << stud.info();
     }
     cout << "Studentu isskirstymas i 2 failus uztruko:" << t.elapsed() << endl;
+    m.clear();
+    n.clear();
+    f1.close();
+    f2.close();
 };
 
 Studentas ivedimas(int &n, int x) {
@@ -377,10 +384,10 @@ void testas() {
          << left << setw(15) << "List" << left << setw(15) << "Vector" << endl;
     SetConsoleTextAttribute(h, 15);
     print_sparta(1000);
-//        print_sparta(10000);
-//        print_sparta(100000);
-//        print_sparta(1000000);
-//        print_sparta(10000000);
+    print_sparta(10000);
+    print_sparta(100000);
+    print_sparta(1000000);
+    print_sparta(10000000);
     cout << endl;
 }
 
@@ -394,9 +401,9 @@ void testas2() {
     cout << left << setw(25) << "1000"
          << left << setw(20) << nusk_vect1(1000) << left << setw(20) << vect_st_part(1000)
          << left << setw(20) << nusk_vect2(1000) << left << setw(20) << vect_partition(1000) << endl;
-//        cout << left << setw(25) << "1000000"
-//             << left << setw(20) << nusk_vect1(1000000) << left << setw(20) << vect_st_part(1000000)
-//             << left << setw(20) << nusk_vect2(1000000)<< left << setw(20) << vect_partition(1000000) << endl;
+    cout << left << setw(25) << "1000000"
+         << left << setw(20) << nusk_vect1(1000000) << left << setw(20) << vect_st_part(1000000)
+         << left << setw(20) << nusk_vect2(1000000)<< left << setw(20) << vect_partition(1000000) << endl;
 }
 
 void failo_gen() {
@@ -426,7 +433,7 @@ void f_nusk() {
 void duom_ivedimas() {
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(h, 9);
-    list<Studentas> studentai;
+    vector<Studentas> studentai;
     int n, m;
     string com, com2;
     cout << "Iveskite studentu skaiciu:";
@@ -470,4 +477,6 @@ void duom_ivedimas() {
             isvedimasMed(a, m);
         }
     }
+    studentai.clear();
+   
 }
