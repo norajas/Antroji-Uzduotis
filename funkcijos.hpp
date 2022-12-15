@@ -38,11 +38,7 @@ public:
     void Galutinis() {double vid = std::accumulate(pazymiai_.begin(), pazymiai_.end(), 0.0) / pazymiai_.size();
     galutinis_ = 0.4 * vid + 0.6 * egzaminas_;}
     void Galutinis_m() { galutinis_m_ = 0.4 * med() + 0.6 * egzaminas_;}
-
-//    bool operator<(Studentas &s) {
-//        if (galutinis_ < s.galutinis_) {return true;}
-//        return false;
-//    }
+    
     string info(){
         char buf[55];
         snprintf(buf, 55, "%-15s %-15s %-16.2f \n", vardas_.c_str(), pavarde_.c_str(), galutinis_);
