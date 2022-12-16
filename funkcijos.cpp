@@ -376,9 +376,9 @@ void testas2() {
          << left << setw(20) << "stable_partition" << left << setw(20) << "find_if + 2x move"
          << left << setw(20) << "partition_copy" << endl;
     SetConsoleTextAttribute(h, 15);
-    cout << left << setw(25) << "1000"
-         << left << setw(20) << nusk_vect1(1000) << left << setw(20) << vect_st_part(1000)
-         << left << setw(20) << nusk_vect2(1000) << left << setw(20) << vect_partition(1000) << endl;
+    cout << left << setw(25) << "100000"
+         << left << setw(20) << nusk_vect1(100000) << left << setw(20) << vect_st_part(100000)
+         << left << setw(20) << nusk_vect2(100000) << left << setw(20) << vect_partition(100000) << endl;
     cout << left << setw(25) << "1000000"
          << left << setw(20) << nusk_vect1(1000000) << left << setw(20) << vect_st_part(1000000)
          << left << setw(20) << nusk_vect2(1000000)<< left << setw(20) << vect_partition(1000000) << endl;
