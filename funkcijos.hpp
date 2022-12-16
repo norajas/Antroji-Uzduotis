@@ -58,6 +58,30 @@ public:
     //destructor
     ~Studentas(){pazymiai_.clear();
     }
+    
+    //copy constructor
+    Studentas(const Studentas &s){
+        vardas_ = s.vardas_;
+        pavarde_ = s.pavarde_;
+        egzaminas_ = s.egzaminas_;
+        pazymiai_ = s.pazymiai_;
+        galutinis_ = s.galutinis_;
+        galutinis_m_ = s.galutinis_m_;
+    }
+
+    //copy assignment operator
+    Studentas& operator= (const Studentas& s){
+        if (this == &s){
+            return *this;
+        }
+        vardas_ = s.vardas_;
+        pavarde_ = s.pavarde_;
+        egzaminas_ = s.egzaminas_;
+        pazymiai_ = s.pazymiai_;
+        galutinis_ = s.galutinis_;
+        galutinis_m_ = s.galutinis_m_;
+        return *this;
+    }
     string info(){
         char buf[55];
         snprintf(buf, 55, "\n %-15s %-15s %-16.2f", vardas_.c_str(), pavarde_.c_str(), galutinis_);
@@ -97,6 +121,8 @@ public:
             s.pazymiai_.push_back(paz);
         }
         in >> s.egzaminas_;
+        s.Galutinis();
+        s.Galutinis_m();
         return in;
     }
 };
