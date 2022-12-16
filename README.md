@@ -2,4 +2,4 @@
 
 ## Versija 1.2
 
-***Studentas*** klasėje realizuota “Didžiojo trejeto” taisyklė (*"Rule of three"*): pridėtas destruktorius, kopijavimo konstruktorius ir priskyrimo kopijavimu operatorius.
+***Studentas*** klasėje realizuota “Didžiojo trejeto” taisyklė (*"Rule of three"*): pridėtas destruktorius, kopijavimo konstruktorius ir priskyrimo kopijavimu operatorius. Taip pat perdengti įvesties ir išvesties operatoriai.
