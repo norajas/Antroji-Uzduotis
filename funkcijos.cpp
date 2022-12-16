@@ -43,8 +43,6 @@ vector<Studentas> nuskaitymas_vect(string fname) {
         while (getline(failas, eil)) {
             Studentas stud;
             failas >> stud;
-            stud.Galutinis();
-            stud.Galutinis_m();
             studentai.push_back(stud);
             paz.clear();
         }
@@ -68,8 +66,6 @@ list<Studentas> nuskaitymas_list(string fname) {
         while (getline(failas, eil)) {
             Studentas stud;
             failas >> stud;
-            stud.Galutinis();
-            stud.Galutinis_m();
             studentai.push_back(stud);
             paz.clear();
         }
