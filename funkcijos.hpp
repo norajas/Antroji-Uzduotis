@@ -1,52 +1,40 @@
-#ifndef INC_1_2_FUNKCIJOS_HPP
-#define INC_1_2_FUNKCIJOS_HPP
+#ifndef INC_1_5_FUNKCIJOS_HPP
+#define INC_1_5_FUNKCIJOS_HPP
 
 #include "mano_lib.hpp"
 
-class Studentas {
-private:
+class Zmogus {
+protected:
     string vardas_;
     string pavarde_;
+public:
+    Zmogus(string vardas, string pavarde){
+        vardas_ = vardas; pavarde_ = pavarde;
+    }
+    Zmogus(){
+        vardas_ = ""; pavarde_ = "";
+    }
+    virtual void Vardas(string vardas) = 0;
+    virtual void Pavarde(string pavarde) = 0;
+    inline string getVardas() const{return vardas_;}
+    inline string getPavarde() const{return pavarde_;}
+};
+
+class Studentas : public Zmogus {
+private:
     vector<int> pazymiai_;
     int egzaminas_;
     double galutinis_;
     double galutinis_m_;
+
 public:
-    Studentas(){
-        vardas_=""; pavarde_="", pazymiai_={0}, egzaminas_=0, galutinis_=0, galutinis_m_=0;}
-    Studentas(string v, string p, vector<int> paz, int e);
-    
-     //destructor
-    ~Studentas(){pazymiai_.clear();
+    Studentas() : Zmogus(){
+        pazymiai_={0}, egzaminas_=0, galutinis_=0, galutinis_m_=0;
     }
 
-    //copy constructor
-    Studentas(const Studentas &s){
-        vardas_ = s.vardas_;
-        pavarde_ = s.pavarde_;
-        egzaminas_ = s.egzaminas_;
-        copy(s.pazymiai_.begin(), s.pazymiai_.end(), std::back_inserter(pazymiai_));
-        galutinis_ = s.galutinis_;
-        galutinis_m_ = s.galutinis_m_;
-    }
-
-    //copy assignment operator
-    Studentas& operator= (const Studentas& s){
-        if (this == &s){
-            return *this;
-        }
-        vardas_ = s.vardas_;
-        pavarde_ = s.pavarde_;
-        egzaminas_ = s.egzaminas_;
-        copy(s.pazymiai_.begin(), s.pazymiai_.end(), std::back_inserter(pazymiai_));
-        galutinis_ = s.galutinis_;
-        galutinis_m_ = s.galutinis_m_;
-        return *this;
-    }
+    Studentas(string v, string p, vector<int> pa, int e);
 
     //getters
-    string getVardas() {return vardas_;}
-    string getPavarde() {return pavarde_;}
     vector<int> getPazymiai() {return pazymiai_;}
     int getEgzaminas() {return egzaminas_;}
     double getGalutinis() {return galutinis_;}
@@ -64,19 +52,22 @@ public:
     void Pazymiai(vector<int> pazymiai) {pazymiai_ = pazymiai;}
     void Egzaminas(int egzaminas) {egzaminas_ = egzaminas;}
     void Galutinis() {double vid = std::accumulate(pazymiai_.begin(), pazymiai_.end(), 0.0) / pazymiai_.size();
-    galutinis_ = 0.4 * vid + 0.6 * egzaminas_;}
+        galutinis_ = 0.4 * vid + 0.6 * egzaminas_;}
     void Galutinis_m() { galutinis_m_ = 0.4 * med() + 0.6 * egzaminas_;}
-    
+
+    //destructor
+    ~Studentas(){pazymiai_.clear();
+    }
     string info(){
         char buf[55];
-        snprintf(buf, 55, "%-15s %-15s %-16.2f \n", vardas_.c_str(), pavarde_.c_str(), galutinis_);
+        snprintf(buf, 55, "\n %-15s %-15s %-16.2f", vardas_.c_str(), pavarde_.c_str(), galutinis_);
         string info = buf;
         return info;
     }
 
     string info_m(){
         char buf[55];
-        snprintf(buf, 55, "%-15s %-15s %-16.2f \n", vardas_.c_str(), pavarde_.c_str(), galutinis_m_);
+        snprintf(buf, 55, "\n %-15s %-15s %-16.2f", vardas_.c_str(), pavarde_.c_str(), galutinis_m_);
         string info = buf;
         return info;
     }
@@ -154,4 +145,4 @@ void f_nusk();
 
 void duom_ivedimas();
 
-#endif //INC_1_2_FUNKCIJOS_HPP
+#endif //INC_1_5_FUNKCIJOS_HPP
