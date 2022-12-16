@@ -1,9 +1,7 @@
 #include "funkcijos.hpp"
 
-Studentas::Studentas(string v, string p, vector<int> paz, int e) {
-    Vardas(v);
-    Pavarde(p);
-    Pazymiai(paz);
+Studentas::Studentas(string v, string p, vector<int> pa, int e) : Zmogus(v, p){
+    Pazymiai(pa);
     Egzaminas(e);
 }
 
