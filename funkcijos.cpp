@@ -41,16 +41,8 @@ vector<Studentas> nuskaitymas_vect(string fname) {
         int n = 4;
         std::stringstream s(eil);
         while (getline(failas, eil)) {
-            string vardas, pavarde;
-            int egz;
-            failas >> vardas;
-            failas >> pavarde;
-            for (int i = 0; i < n; i++) {
-                failas >> p;
-                paz.push_back(p);
-            }
-            failas >> egz;
-            Studentas stud(vardas, pavarde, paz, egz);
+            Studentas stud;
+            failas >> stud;
             stud.Galutinis();
             stud.Galutinis_m();
             studentai.push_back(stud);
@@ -75,19 +67,7 @@ list<Studentas> nuskaitymas_list(string fname) {
         std::stringstream s(eil);
         while (getline(failas, eil)) {
             Studentas stud;
-            string vardas, pavarde;
-            int egz;
-            failas >> vardas;
-            stud.Vardas(vardas);
-            failas >> pavarde;
-            stud.Pavarde(pavarde);
-            for (int i = 0; i < n; i++) {
-                failas >> p;
-                paz.push_back(p);
-            }
-            stud.Pazymiai(paz);
-            failas >> egz;
-            stud.Egzaminas(egz);
+            failas >> stud;
             stud.Galutinis();
             stud.Galutinis_m();
             studentai.push_back(stud);
