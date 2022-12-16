@@ -31,7 +31,7 @@ Sukurta abstrakčioji bazinė klasė ***Zmogus***, kurios išvestine klase tapo 
 
 Sukurta programos dokumentacija naudojant ***Doxygen***. Norint pasiekti dokumentacijos puslapį, reikia paleisti ***html*** aplanke esantį ***index.html*** failą. Dokumentacijoje galima rasti klases, jų hierarchiją, klasėse apibrėžtų narių ir funkcijų sąrašus.
 
-Programos veikimo instrukcija:
+### Programos veikimo instrukcija
 
 Programos funkcija pasirenkama įvedant programos meniu nurodytą ją atitinkantį skaičių:
 - **(1) Programos spartos testas (list ir vector)** - vykdomas programos spartos testas naudojant 5 failus - *stud1000.txt, stud10000.txt, stud100000.txt, stud1000000.txt ir stud10000000.txt* bei 2 skirtingus konteinerius - ***std::list*** ir ***std::vector***, realizuotos dvi skirtingos strategijos - kuriant vieną naują konteinerį bei kuriant 2 naujus konteinerius.
