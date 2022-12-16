@@ -25,7 +25,7 @@ public:
         vardas_ = s.vardas_;
         pavarde_ = s.pavarde_;
         egzaminas_ = s.egzaminas_;
-        copy(s.pazymiai_.begin(), s.pazymiai_.end(), std::back_inserter(pazymiai_));
+        pazymiai_ = s.pazymiai_;
         galutinis_ = s.galutinis_;
         galutinis_m_ = s.galutinis_m_;
     }
@@ -38,7 +38,7 @@ public:
         vardas_ = s.vardas_;
         pavarde_ = s.pavarde_;
         egzaminas_ = s.egzaminas_;
-        copy(s.pazymiai_.begin(), s.pazymiai_.end(), std::back_inserter(pazymiai_));
+        pazymiai_ = s.pazymiai_;
         galutinis_ = s.galutinis_;
         galutinis_m_ = s.galutinis_m_;
         return *this;
