@@ -89,6 +89,26 @@ public:
         } else med = pazymiai_[(pazymiai_.size() - 1) / 2];
         return med;
     }
+    
+    friend std::ostream& operator<< (std::ostream&out, const Studentas& s){
+        out << s.vardas_ << " " << s.pavarde_ << " ";
+        for (int p : s.pazymiai_){
+            out << p << "";
+        }
+        out << s.egzaminas_ << endl;
+        return out;
+    }
+
+    friend std::istream& operator>> (std::istream& in, Studentas& s){
+        int paz_sk, paz;
+        in >> s.vardas_ >> s.pavarde_ ;
+        for(int i =0; i < 4; i++){
+            in >> paz;
+            s.pazymiai_.push_back(paz);
+        }
+        in >> s.egzaminas_;
+        return in;
+    }
 };
 
 class Timer {
