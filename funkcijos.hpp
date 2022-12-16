@@ -97,6 +97,8 @@ public:
             s.pazymiai_.push_back(paz);
         }
         in >> s.egzaminas_;
+        s.Galutinis();
+        s.Galutinis_m();
         return in;
     }
 };
