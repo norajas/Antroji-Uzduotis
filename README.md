@@ -1,5 +1,5 @@
 # Antroji Užduotis
 
-## Versija 1.2
+## Versija 1.5
 
-***Studentas*** klasėje realizuota “Didžiojo trejeto” taisyklė (*"Rule of three"*): pridėtas destruktorius, kopijavimo konstruktorius ir priskyrimo kopijavimu operatorius.
+Sukurta abstrakčioji bazinė klasė ***Zmogus***, kurios išvestine klase tapo klasė ***Studentas***.
